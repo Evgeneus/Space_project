@@ -69,9 +69,8 @@ class SerialProtocol():
                                     print 'data: %s' % self.sp_dataString
                                     print "Package is received"
                                     print "*----------------*"
-                                    print "monitoring ..."
 
-                                    package_info = {'package_type': self.sp_package_type, 'payload': self.sp_dataString}
+                                    package_info = {'package_type': self.sp_package_type, 'payload': self.sp_dataString.strip()}
 
                                     self.sp_Reset()
                                     self.sp_packetAvailable = True
@@ -83,9 +82,12 @@ class SerialProtocol():
                                 print "monitoring ..."
 
                                 self.sp_ResetAll()
-    def sp_Send(self, data):
-        package = " " + self.sp_startMarker + chr(int(len(data))) + data + self.sp_stopMarker + " "
+
+    def sp_Send(self, package_type, data):
+        package = " " + self.sp_startMarker + package_type + chr(int(len(data))) + data + self.sp_stopMarker + " "
         ser.write(package)
 
-        print "Package send:"
-        print package
+        print "Package send: "
+        print "Data: %s" % data
+        print "Package: %s" % package
+        print "*----------------*"
