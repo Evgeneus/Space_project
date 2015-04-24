@@ -8,12 +8,13 @@ def print_action_result(type, message):
         print "*----------------*"
         return
 
-    if type == "v":
-        print "Package is received"
+    if type == "r":
+        print "Error: %s" % message
         print "*----------------*"
         return
 
-    if type == "r":
-        print "Error: %s" % message
+    #don't use now
+    if type == "v":
+        print "Package is received"
         print "*----------------*"
         return

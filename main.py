@@ -8,6 +8,7 @@ from helpers.visualizer import print_action_result
 DATA = 'd'
 COMMAND = 'c'
 ERROR = 'r'
+#don't use now
 RECEIVE = 'v'
 
 
