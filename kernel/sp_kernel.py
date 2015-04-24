@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import serial
+import time
 
 serial_name = "/dev/ttyUSB0"
 read_byte_mode = 1
@@ -91,3 +92,5 @@ class SerialProtocol():
         print "Data: %s" % data
         print "Package: %s" % package
         print "*----------------*"
+
+        time.sleep(0.5)

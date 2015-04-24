@@ -17,13 +17,14 @@ def handle_command(package_info):
         RF.sp_Send(ERROR, '%s not command' % package_info['package_type'])
         return 1
 
-    command = commands.get(package_info['payload'].split(';')[2], None)
-    if not command:
+    payload = package_info['payload'].split(';')
+    command = commands.get(payload[2], None)
+    if not command or (int(payload[0]) > (payload[1])):
         print_action_result(ERROR, 'no command %s' % package_info['payload'])
         RF.sp_Send(ERROR, 'no command %s' % package_info['payload'])
         return 1
 
-    command(RF, package_info['payload'])
+    command(RF, payload[3:])
 
 
 if __name__ == "__main__":
