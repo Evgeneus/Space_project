@@ -1,3 +1,7 @@
+#! /usr/bin/python
+# coding: utf-8
+
+
 def print_action_result(type, message):
     if type == "d":
         print "Package is sent"
