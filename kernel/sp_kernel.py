@@ -1,13 +1,13 @@
-#! /usr/bin/python
-# coding: utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import serial
 import time
 
-serial_name = "/dev/ttyUSB0"
+serial_name = "/dev/ttyUSB"
 read_byte_mode = 1
 
-ser = serial.Serial(serial_name,  19200, timeout=1)
+ser = serial.Serial(serial_name,  19200, timeout=1.3)
 print "Serial port name:"
 print ser.name
 
