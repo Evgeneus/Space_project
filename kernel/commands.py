@@ -3,6 +3,7 @@
 import time
 
 from sp_kernel import ser
+# import  main
 
 DATA = 'd'
 COMMAND = 'c'
@@ -57,25 +58,22 @@ class Commands():
         RF.sp_Send(SUCCESS, '1;1;o;%s;success' % cls.outer_temperature)
 
     @classmethod
-    def get_telemetry(cls, RF, payload):
-        print "Get Telemetry Success"
+    def disable_transmission(cls, RF, payload):
+        print "Settelite Disable Transmission"
         print "*----------------*"
 
-        RF.sp_Send(SUCCESS, '1;1;t;telemetry;success')
+        # global enable_transmission_flag
+        # main.enable_transmission_flag = False
+        RF.sp_Send(SUCCESS, '1;1;satllite;disable_transmission')
 
     @classmethod
-    def satellite_activate(cls, RF, payload):
-        print "Satellite activated"
+    def enable_transmission(cls, RF, payload):
+        print "Settelite Enable Transmission"
         print "*----------------*"
 
-        RF.sp_Send(SUCCESS, '1;1;satellite;activated;success')
-
-    @classmethod
-    def satllite_shutdown(cls, RF, payload):
-        print "Settelite Sut Down"
-        print "*----------------*"
-
-        RF.sp_Send(SUCCESS, '1;1;satllite;shutdown;success')
+        # global enable_transmission_flag
+        # main.enable_transmission_flag = True
+        RF.sp_Send(SUCCESS, '1;1;satllite;enable_transmission')
 
     @classmethod
     def transceiver_state(cls, RF, payload):
@@ -92,12 +90,18 @@ class Commands():
 
         print "data: %s" % data
 
+    @classmethod
+    def set_time(cls, RF, payload):
+        print "SET Time"
+        print "*----------------*"
+
+        RF.sp_Send(SUCCESS, '1;1;set;time')
+
 commands = {
-    'a': Commands.satellite_activate,
-    'b': Commands.satllite_shutdown,
+    'a': Commands.enable_transmission,
+    'b': Commands.disable_transmission,
     'c': Commands.transceiver_state,
+    'd': Commands.set_time,
     's': Commands.handle_solar_panel,
-    'g': Commands.get_solar_panel,
-    't': Commands.get_telemetry,
-    'o': Commands.get_outer_temperature
+    'g': Commands.get_solar_panel
 }
