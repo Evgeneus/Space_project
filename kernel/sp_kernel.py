@@ -4,7 +4,7 @@
 import serial
 import time
 
-serial_name = "/dev/ttyUSB"
+serial_name = "/dev/ttyS0"
 read_byte_mode = 1
 
 ser = serial.Serial(serial_name,  19200, timeout=1.3)

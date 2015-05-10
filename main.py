@@ -28,19 +28,60 @@ def handle_package(package_info):
         return
 
     payload = package_info['payload'].split(';')
-    command = commands.get(payload[2], None)
+
+    if len(payload) < 2:
+        print_action_result(ERROR, 'package structure error')
+        RF.sp_Send(ERROR, 'package structure error')
+        return 1
+
+    command_type = payload[2]
+    if command_type == 'q':
+        command = set_nomenal_mode
+    elif command_type == 'z':
+        command = set_operating_mode
+    else:
+        command = commands.get(command_type, None)
 
     if (not command) or (int(payload[0]) > int(payload[1])):
         print_action_result(ERROR, 'no command or package structure error')
         RF.sp_Send(ERROR, 'no command %s' % package_info['payload'])
         return 1
 
-    command(RF, payload[3:])
+    if command_type == 'q' or command_type == 'z':
+            command(payload=payload[3:])
+    else:
+        command(RF, payload=payload[3:])
 
 
 def beacon():
     RF.sp_Send(DATA, '1;1;beacom')
     print "Beacon sent"
+    print "*----------------*"
+
+
+def set_nomenal_mode(payload):
+    sched.unschedule_func(beacon)
+
+    if payload != []:
+        delay = int(payload[0])
+    else:
+        delay = 15
+    sched.add_interval_job(beacon, seconds=delay)
+
+    print "Set Nomenal Mode: %i seconds" % delay
+    print "*----------------*"
+
+
+def set_operating_mode(payload):
+    sched.unschedule_func(beacon)
+
+    if payload != []:
+        delay = int(payload[0])
+    else:
+        delay = 15
+    sched.add_interval_job(beacon, seconds=delay)
+
+    print "Set Operating Mode: %i seconds" % delay
     print "*----------------*"
 
 if __name__ == "__main__":
@@ -50,6 +91,8 @@ if __name__ == "__main__":
     sched = Scheduler()
     sched.start()
     sched.add_interval_job(beacon, seconds=10)
+    print "Set Emergency Mode"
+    print "----------------"
 
     print "Start monitoring"
     print "----------------"
